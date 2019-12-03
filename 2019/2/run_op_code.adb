@@ -1,10 +1,14 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Load_Op_Code; use Load_Op_Code;
+with Execute_Op_Code; use Execute_Op_Code;
 procedure Run_Op_Code is
     vec : Int_Vec.Vector;
 begin
     vec := Load_Code( "test1" );
-    Put_Line( Integer'Image( vec( 0 ) ) );
+    vec := Execute( vec );
+    for i in vec.First_Index .. vec.Last_Index loop
+        Put_Line( Integer'Image( vec( i ) ) );
+    end loop;
     -- Op codes are:
     -- 1 - add next two into position of third
     -- 2 - multiply

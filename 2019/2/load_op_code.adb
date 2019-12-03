@@ -1,24 +1,25 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+-- Used to load the op code into an integer vector
 package body Load_Op_Code is
     function Load_Code( File_Name : String ) return Int_Vec.Vector is
         tmp : String := Read_Stream( File_Name );
-        vec : Int_Vec.Vector;
     begin
-        vec := Tokenize_String( tmp, ',' );
-        return vec;
+        return Tokenize_String( tmp, ',' );
     end Load_Code;
     
-    -- Read a file inot a string
+    -- Read a file into a string
     function Read_Stream( File_Name : String ) return String is
         F : File_Type;
         str : Unbounded_String := To_Unbounded_String( "" );
     begin
+        -- Open the file
         Open( F, In_File, File_Name );
+        -- Go through file and read all contents
         while not End_Of_File( F ) loop
-            Put_Line( To_String( str ) );
             str := str & Get_Line( F );
         end loop;
+        -- Clean up
         Close( F );
         return To_String( str );
     end Read_Stream;
