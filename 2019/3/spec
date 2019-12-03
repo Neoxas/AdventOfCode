@@ -1,0 +1,12 @@
+Write up a map function to allow wires to be drawn
+- Initilise grid
+- Trace out path for wire 1
+- Trave out pah for wire 2
+- Check out intersections
+- Calculate manhatan distance for each (|x2 - x1| + |y2 - y1| )
+- Return distance
+
+How to do grid?
+Ada 2D vector type? 
+Could just log each positon after each movement into a vector (Hash table?) then compare them.
+Then calculate distance for all of these and take the shortest??
