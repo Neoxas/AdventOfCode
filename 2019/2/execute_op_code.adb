@@ -13,13 +13,13 @@ package body Execute_Op_Code is
                first := storage_vec( vec_index + 1 );
                second := storage_vec( vec_index + 2 );
                location := storage_vec( vec_index + 3 );
-               storage_vec( location ) := ( first + second );
+               storage_vec( location ) := ( storage_vec( first ) + storage_vec( second ) );
                vec_index := vec_index + 4;
            elsif( storage_vec( vec_index ) = 2 ) then
                first := storage_vec( vec_index + 1 );
                second := storage_vec( vec_index + 2 );
                location := storage_vec( vec_index + 3 );
-               storage_vec( location ) := ( first * second );
+               storage_vec( location ) := ( storage_vec( first ) * storage_vec( second ) );
                vec_index := vec_index + 4;
            elsif( storage_vec( vec_index ) = 99 ) then
                exit_code_not_found := False;
