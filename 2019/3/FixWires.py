@@ -12,8 +12,11 @@ class Point:
     def __init__( self, x:int, y:int ):
         self.x = x
         self.y = y
+    
+    def GetKey( self ) -> str:
+        return "X" + str( self.x ) + "Y" + str( self.y )
 
-    def ManhattanDistance( self ):
+    def ManhattanDistance( self ) -> int:
         return abs( self.x ) + abs( self.y )
 
 def ReadFile( filePath:str ) -> str:
@@ -43,8 +46,8 @@ def MoveDistance( x:int, y:int, direction:Direction, distance:int ) -> dict:
     for i in range( 0, distance ):
         x = x + xMov 
         y = y + yMov
-        points[ "X" + str(x) + "Y" + str( y ) ]=Point( x, y )
-
+        currPoint = Point( x, y )
+        points[ currPoint.GetKey() ] = currPoint
     return points 
 
 def CalcuateRoute( route:list ) -> dict:
@@ -84,6 +87,35 @@ def GetDistances( route1:dict, intersections:list ) -> list:
         distances.append( route1[ name ].ManhattanDistance() )
     return distances
 
+
+def WalkRoute( route:dict, intersection:str ) -> int:
+    steps = 0
+    walkedSteps = {}
+    
+    # Go through all items from the route
+    for key,point in route.items():
+        steps = steps + 1
+        # If we have already visted this, then we reset to this point
+        if point.GetKey() in walkedSteps.keys():
+            steps = walkedSteps[ point.GetKey() ]
+        walkedSteps[ point.GetKey() ] = steps
+        
+        # If we hit the intersection, stop
+        if key == intersection:
+            break
+
+    return steps 
+
+def GetSteps( route1:dict, route2:dict, intersections:list ) -> list:
+    steps = []
+    
+    for intersection in intersections:
+        wire1 = WalkRoute( route1, intersection )
+        wire2 = WalkRoute( route2, intersection )
+        steps.append( wire1 + wire2 )
+
+    return steps
+
 content = ReadFile( sys.argv[ 1 ] )
 routes = SplitString( content, '\n' )
 route1  = SplitString( routes[ 0 ], ',' )
@@ -95,3 +127,6 @@ pointRoute2 = CalcuateRoute( route2 )
 inter = GetIntersections( pointRoute1, pointRoute2 )
 dists = GetDistances( pointRoute1, inter )
 print( "Min Distance: " + str( min( dists ) ) )
+
+steps = GetSteps( pointRoute1, pointRoute2, inter )
+print( "Min Steps: " + str( min( steps ) ) )
