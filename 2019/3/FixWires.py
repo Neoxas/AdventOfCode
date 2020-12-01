@@ -129,4 +129,6 @@ dists = GetDistances( pointRoute1, inter )
 print( "Min Distance: " + str( min( dists ) ) )
 
 steps = GetSteps( pointRoute1, pointRoute2, inter )
+steps.sort()
+print( steps )
 print( "Min Steps: " + str( min( steps ) ) )

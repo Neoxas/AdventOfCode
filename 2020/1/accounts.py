@@ -11,11 +11,12 @@ def read_input( filename: str ) -> list:
 
 def find_sum( data:list, sum_target:int ) -> int:
     sum = -1;
-    
+   # write this as a recursive loop or a method that gets the depth count 
     for item1 in data:
         for item2 in data:
-            if( item1 + item2 ) == sum_target:
-                return item1 * item2;
+            for item3 in data:
+                if( item1 + item2 + item3 ) == sum_target:
+                    return item1 * item2 * item3;
 
     return sum;
 
