@@ -33,3 +33,14 @@ def read_map( filepath:str ) -> list:
     return trees;
 # simple route
 print( "Trees in route : ", count_trees( 0, 0, 3, 1, read_map( "input" ) ) )
+
+#Second check
+trees = read_map( "input" )
+multi = 1
+multi = multi * count_trees( 0, 0, 1, 1, trees );
+multi = multi * count_trees( 0, 0, 3, 1, trees );
+multi = multi * count_trees( 0, 0, 5, 1, trees );
+multi = multi * count_trees( 0, 0, 7, 1, trees );
+multi = multi * count_trees( 0, 0, 1, 2, trees );
+
+print( "Overall tree multiplication: ", multi );
