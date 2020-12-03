@@ -22,5 +22,14 @@ def count_trees( start_x:int, start_y:int, right:int, down:int, trees:list ) -> 
 
     return tree_count;
 
-print( count_trees( 0,0,1,1, [['.','.'],['.','#'],['#','.']] ) )
-print( count_trees( 0,0,0,1, [['.','.'],['.','#'],['#','.']] ) )
+def read_map( filepath:str ) -> list:
+    trees = []
+    with open( filepath, 'r' ) as f:
+        lines = f.readlines();
+
+    for line in lines:
+        trees.append( list( line.rstrip() ) );
+
+    return trees;
+# simple route
+print( "Trees in route : ", count_trees( 0, 0, 3, 1, read_map( "input" ) ) )
