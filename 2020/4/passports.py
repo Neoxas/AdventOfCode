@@ -20,7 +20,93 @@ class PassportData():
                 valid = False;
         return valid;
 
-  
+    def _check_int_range( self, value, minimum, maximum ) -> bool:
+        if( value < minimum or value > maximum ):
+            print( "Invalid int range. Expeceted not < ", minimum, " and not > ", maximum, " for value: ", value );
+            return False;
+        else:
+            return True;
+
+    def check_byr( self ) -> bool:
+        byr = int( self.dict_data[ 'byr' ] );
+        return self._check_int_range( byr, 1920, 2002 );
+
+    def check_iyr( self ) -> bool:
+        iyr = int( self.dict_data[ 'iyr' ] );
+        return self._check_int_range( iyr, 2010, 2020 );
+
+    def check_eyr( self ) -> bool:
+        eyr = int( self.dict_data[ 'eyr' ] );
+        return self._check_int_range( eyr, 2020, 2030 );
+
+    def check_hgt( self ) -> bool:
+        hgt = self.dict_data[ 'hgt' ];
+        # slice to get type
+        hgt_type = hgt[ -2: ];
+        try:
+            hgt = int( hgt[:-2] )
+        except:
+            print( "Invalid hgt conversion, value was ", hgt )
+            return False;
+        if( hgt_type == 'cm' ):
+            return self._check_int_range( hgt, 150, 193 );
+        elif( hgt_type == 'in' ):
+            return self._check_int_range( hgt, 59, 76 );
+        else:
+            return False;
+
+    def check_hcl( self ) -> bool:
+        hcl = self.dict_data[ 'hcl' ];
+        if hcl[ 0 ] is not '#':
+            return False;
+        hcl = hcl[ 1: ];
+        try:
+            int( hcl, 16 );
+            return True;
+        except:
+            print( "Invalid hex for hcl. Value was: ", hcl );
+            return False;
+
+    def check_ecl( self, allowed_ecl: list ) -> bool:
+        ecl = self.dict_data[ 'ecl' ];
+        for allowed in allowed_ecl:
+            if ecl == allowed:
+                return True;
+        print( "Eye color ", ecl, " not found in allowed list" );
+        return False;
+
+    def check_pid( self ):
+        pid = self.dict_data[ 'pid' ];
+        if len( pid ) is not 9:
+            print( "PID length not valied. Expected 9, was : ", len( pid ) );
+            return False;
+        try:
+            int( pid );
+            return True;
+        except:
+            print( "Invalid PID conversion. Value was: ", pid );
+            return False;
+
+
+
+    def check_valid_entries( self ) -> bool:
+        allowed_ecl = [ 'amb', 'blu', 'brn', 'grn', 'gry', 'hzl', 'oth' ]
+        if not self.check_byr():
+            return False;
+        if not self.check_iyr():
+            return False;
+        if not self.check_eyr():
+            return False;
+        if not self.check_hgt():
+            return False;
+        if not self.check_hcl():
+            return False;
+        if not self.check_ecl( allowed_ecl ):
+            return False;
+        if not self.check_pid():
+            return False;
+        return True;
+
 def split_data( data: str ) -> list:
     data = data.replace( '\r' ,'' );
     # entries ar delimited by two new lines
@@ -54,6 +140,7 @@ req_keys = [ 'byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid' ];
 opt_keys = [ 'cid' ];
 for passport in passports:
     if passport.check_correct_keys( req_keys, opt_keys ):
-        count = count + 1;
+        if passport.check_valid_entries():
+            count = count + 1;
 
 print( "Valid passports are : ", count )
