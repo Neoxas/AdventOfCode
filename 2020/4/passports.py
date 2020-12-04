@@ -27,19 +27,19 @@ class PassportData():
         else:
             return True;
 
-    def check_byr( self ) -> bool:
+    def _check_byr( self ) -> bool:
         byr = int( self.dict_data[ 'byr' ] );
         return self._check_int_range( byr, 1920, 2002 );
 
-    def check_iyr( self ) -> bool:
+    def _check_iyr( self ) -> bool:
         iyr = int( self.dict_data[ 'iyr' ] );
         return self._check_int_range( iyr, 2010, 2020 );
 
-    def check_eyr( self ) -> bool:
+    def _check_eyr( self ) -> bool:
         eyr = int( self.dict_data[ 'eyr' ] );
         return self._check_int_range( eyr, 2020, 2030 );
 
-    def check_hgt( self ) -> bool:
+    def _check_hgt( self ) -> bool:
         hgt = self.dict_data[ 'hgt' ];
         # slice to get type
         hgt_type = hgt[ -2: ];
@@ -55,7 +55,7 @@ class PassportData():
         else:
             return False;
 
-    def check_hcl( self ) -> bool:
+    def _check_hcl( self ) -> bool:
         hcl = self.dict_data[ 'hcl' ];
         if hcl[ 0 ] is not '#':
             return False;
@@ -67,7 +67,7 @@ class PassportData():
             print( "Invalid hex for hcl. Value was: ", hcl );
             return False;
 
-    def check_ecl( self, allowed_ecl: list ) -> bool:
+    def _check_ecl( self, allowed_ecl: list ) -> bool:
         ecl = self.dict_data[ 'ecl' ];
         for allowed in allowed_ecl:
             if ecl == allowed:
@@ -75,7 +75,7 @@ class PassportData():
         print( "Eye color ", ecl, " not found in allowed list" );
         return False;
 
-    def check_pid( self ):
+    def _check_pid( self ):
         pid = self.dict_data[ 'pid' ];
         if len( pid ) is not 9:
             print( "PID length not valied. Expected 9, was : ", len( pid ) );
@@ -91,19 +91,19 @@ class PassportData():
 
     def check_valid_entries( self ) -> bool:
         allowed_ecl = [ 'amb', 'blu', 'brn', 'grn', 'gry', 'hzl', 'oth' ]
-        if not self.check_byr():
+        if not self._check_byr():
             return False;
-        if not self.check_iyr():
+        if not self._check_iyr():
             return False;
-        if not self.check_eyr():
+        if not self._check_eyr():
             return False;
-        if not self.check_hgt():
+        if not self._check_hgt():
             return False;
-        if not self.check_hcl():
+        if not self._check_hcl():
             return False;
-        if not self.check_ecl( allowed_ecl ):
+        if not self._check_ecl( allowed_ecl ):
             return False;
-        if not self.check_pid():
+        if not self._check_pid():
             return False;
         return True;
 
