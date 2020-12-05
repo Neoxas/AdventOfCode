@@ -57,6 +57,18 @@ def read_file( filename: str ) -> list:
         data.append( line.rstrip() );
     return data;
 
+"""
+Find the seat with an index gap of 1
+"""
+def find_missing_seat( seats:list ) -> int:
+    seats.sort()
+    below_seat_id = -1;
+    for i in range( 0, len(seats) - 1 ):
+        if ( seats[ i + 1 ] - seats[ i ] ) != 1:
+            below_seat_id = seats[ i ];
+            break;
+    return below_seat_id + 1;
+
 data = read_file( 'input' );
 
 ## NOTE: Could pregenerate entrie tree of binary space partition and use lookup on hashmap for speed?
@@ -67,3 +79,10 @@ for s in data:
         max_id = seat.get_id();
 
 print( "Maximum seat ID is: ", max_id );
+
+seats = []
+for s in data:
+    seat = Seat( s, 7, 0, 127, 0 , 7 );
+    seats.append( seat.get_id() );
+
+print( "Your seat is : ", find_missing_seat( seats ) );
