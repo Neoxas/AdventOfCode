@@ -57,11 +57,6 @@ def read_file( filename: str ) -> list:
         data.append( line.rstrip() );
     return data;
 
-s = Seat( 'FBFBBFFRLR', 7, 0, 127, 0 ,7 );
-print( "Seat Row is :", s.get_row() );
-print( "Seat Column is :", s.get_column() );
-print( "Seat ID is :", s.get_id() );
-"""
 data = read_file( 'input' );
 
 ## NOTE: Could pregenerate entrie tree of binary space partition and use lookup on hashmap for speed?
@@ -72,4 +67,3 @@ for s in data:
         max_id = seat.get_id();
 
 print( "Maximum seat ID is: ", max_id );
-"""
