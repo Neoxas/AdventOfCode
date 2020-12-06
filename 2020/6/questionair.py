@@ -7,12 +7,15 @@ class Questionair():
         self.individual_answers = data.replace( '\r', '' ).split( '\n' );
 
     def count_answers( self ) -> int:
+        # Simply return a count of all unique entries in the set.
         return len( set( self.answers ) );
 
     def count_individual_answers_that_match( self ) -> int:
-        start_set = set( self.individual_answers )
+        # Setup the first set to keep anding
+        start_set = set( self.individual_answers[ 0 ] );
+        # Iterate through each answer and see what sets intersect
         for line in self.individual_answers:
-            start_set = start_set & set( self.individual_answers );
+            start_set = start_set & set( line );
         return len( start_set );
 
 
